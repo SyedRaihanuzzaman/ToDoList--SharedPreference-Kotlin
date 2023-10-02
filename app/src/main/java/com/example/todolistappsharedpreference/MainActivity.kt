@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         taskList = retrieveTasks()
         taskAdapter = TaskAdapter(taskList, object : TaskAdapter.TaskClickListener {
             override fun onEditClick(position: Int) {
+
                 // Handle edit button click
                 editTaskEditText.setText(taskList[position].title)
                 taskList.removeAt(position)
@@ -38,8 +41,16 @@ class MainActivity : AppCompatActivity() {
 
             override fun onDeleteClick(position: Int) {
                 // Handle delete button click
-                taskList.removeAt(position)
-                taskAdapter.notifyDataSetChanged()
+                val alertDialog = AlertDialog.Builder(this@MainActivity)
+                alertDialog.setTitle("Delete Task")
+                alertDialog.setMessage("Are You Sure want to Delete")
+                alertDialog.setPositiveButton("Yes"){ _, _ ->
+                    deleteTask(position)
+                }
+                alertDialog.setNegativeButton("No") { _, _ -> }
+                alertDialog.show()
+
+
             }
         })
 
@@ -53,8 +64,11 @@ class MainActivity : AppCompatActivity() {
                 val task = Task(taskText, false)
                 taskList.add(task)
                 saveTasks(taskList)
-                taskAdapter.notifyDataSetChanged()
+                taskAdapter.notifyItemInserted(taskList.size-1)
                 editTaskEditText.text.clear()
+            }
+            else{
+                Toast.makeText(this,"Task tittle cannot be empty",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -63,6 +77,13 @@ class MainActivity : AppCompatActivity() {
         val tasks = sharedPreferences.getStringSet("tasks", HashSet()) ?: HashSet()
         return tasks.map { Task(it, false) }.toMutableList()
     }
+    private fun deleteTask(position: Int) {
+        // Implement logic to delete the task
+        taskList.removeAt(position)
+        taskAdapter.notifyItemRemoved(position)
+        saveTasks(taskList)
+    }
+
 
     private fun saveTasks(taskList: List<Task>) {
         val editor = sharedPreferences.edit()
