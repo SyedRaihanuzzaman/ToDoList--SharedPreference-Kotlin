@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         editTaskEditText = findViewById(R.id.editTaskEditText)
         recyclerView = findViewById(R.id.recyclerView)
         taskList = retrieveTasks()
+
+
         taskAdapter = TaskAdapter(taskList, object : TaskAdapter.TaskClickListener {
             override fun onEditClick(position: Int) {
 

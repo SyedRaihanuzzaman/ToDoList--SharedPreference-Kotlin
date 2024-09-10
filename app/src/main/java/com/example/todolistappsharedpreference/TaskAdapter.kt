@@ -22,7 +22,7 @@ class TaskAdapter(private val taskList: MutableList<Task>, private val clickList
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskList[position]
         holder.bind(task)
-        holder.itemView.setOnClickListener {
+        holder.binding.editButton.setOnClickListener {
             clickListener.onEditClick(position)
         }
         holder.binding.deleteButton.setOnClickListener {

@@ -29,13 +29,14 @@
             android:layout_weight="1"
             android:textSize="18sp" />
 
-        <!--   <ImageButton
+           <ImageButton
+               android:layout_marginTop="13dp"
                android:id="@+id/editButton"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:src="@drawable/ic_edit"
                android:contentDescription="Edit Task"
-               android:background="?android:attr/selectableItemBackground" />-->
+               android:background="?android:attr/selectableItemBackground" />
 
         <ImageButton
             android:layout_marginTop="8dp"
